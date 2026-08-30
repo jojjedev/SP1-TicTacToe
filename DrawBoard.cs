@@ -65,9 +65,12 @@ public class TicTacToe
                     {
                         rowIndex = rows.IndexOf(row);
                         colIndex = columns.IndexOf(col);
-                        
 
-                        break;
+
+                        if (board[rowIndex, colIndex] == 0)
+                        {
+                            break;
+                        }
                         
                     } 
                 }
