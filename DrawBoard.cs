@@ -50,6 +50,9 @@ public class TicTacToe
         int col;
         int rowIndex;
         int colIndex;
+        var player1Squares = new List<string>();
+        var player2Squares = new List<string>();
+        
         while (true)
         {
             var response = Console.ReadLine().Trim();
@@ -69,14 +72,27 @@ public class TicTacToe
 
                         if (board[rowIndex, colIndex] == 0)
                         {
+                            var coordinate = $"{rowIndex}{colIndex}";
+                            if (currentPlayer == 1)
+                            {
+                                player1Squares.Add(coordinate);
+                            
+                            }
+                            else
+                            {
+                                player2Squares.Add(coordinate);
+                            }
                             break;
                         }
                         
                     } 
                 }
             }
-            Console.WriteLine("Invalid input, try another."); 
-            
+            Console.WriteLine("Invalid input, try another.");
+            Console.WriteLine($"Used squares\nPlayer 1: ");
+            player1Squares.ForEach(i => Console.Write(i + ", "));
+            Console.WriteLine($"Player 2: ");
+            player2Squares.ForEach(i => Console.Write(i + ", "));
             
         }
 //        string row = char.ToString(char.ToUpper(response[0]));
@@ -84,15 +100,8 @@ public class TicTacToe
         rowIndex = rows.IndexOf(row);
         colIndex = columns.IndexOf(col);
         Update(rowIndex, colIndex, currentPlayer);
-            if (currentPlayer == 1)
-            {
-                currentPlayer = 2;
-            }
-            else
-            {
-                currentPlayer = 1;
-            }
-            
+        currentPlayer = currentPlayer % 2 + 1;
+
     }
 
     public static void CheckGameState()
