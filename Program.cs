@@ -4,9 +4,13 @@ public class Program
 {
     static void Main(string[] args)
     {
+        Console.Clear();
+        Console.WriteLine("Let's play TicTacToe!\n\nPress Enter to start the game");
+        Console.ReadLine();
         int round = 0;
         while (round < 9)
         {
+            
             TicTacToe.Draw();
             /*int[,] board = new int[3, 3];
             int[] columns = { 1, 2, 3 };
@@ -37,6 +41,7 @@ public class Program
             */
             TicTacToe.Round();
             round++;
+            
         
         Console.Write($"Game Over! Total rounds: {round}");
         }

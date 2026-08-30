@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 namespace tictactoe;
 
 public class TicTacToe
@@ -9,7 +11,6 @@ public class TicTacToe
     public static void Draw()
     {
         Console.Clear();
-        Console.WriteLine("Let's play TicTacToe!");
         Console.Write("\n    1   2   3  \n");
         Console.Write("  -------------\n");
 
@@ -45,21 +46,54 @@ public class TicTacToe
     public static void Round()
     {
         Console.Write($"It's {currentPlayer}'s turn: ");
-        string response = Console.ReadLine().Trim();
-        string row = char.ToString(char.ToUpper(response[0]));
-        int col = response[1] - '0';
+        string row;
+        int col;
+        int rowIndex;
+        int colIndex;
+        while (true)
+        {
+            var response = Console.ReadLine().Trim();
+            if (response.Length == 2)
+            {
+                if (char.IsLetter(response[0]) && char.IsDigit(response[1]))
+                {
+                    row = response[0].ToString().ToUpper();
+                    col = response[1] - '0';
+
+                    // Check to see if the response is a valid coordinate
+                    if (row is "A" or "B" or "C" && col is 1 or 2 or 3)
+                    {
+                        rowIndex = rows.IndexOf(row);
+                        colIndex = columns.IndexOf(col);
+                        
+
+                        break;
+                        
+                    } 
+                }
+            }
+            Console.WriteLine("Invalid input, try another."); 
             
-        int rowIndex = rows.IndexOf(row);
-        int colIndex = columns.IndexOf(col);
-        TicTacToe.Update(rowIndex, colIndex, currentPlayer);
-        if (currentPlayer == 1)
-        {
-            currentPlayer = 2;
+            
         }
-        else
-        {
-            currentPlayer = 1;
-        }
+//        string row = char.ToString(char.ToUpper(response[0]));
+
+        rowIndex = rows.IndexOf(row);
+        colIndex = columns.IndexOf(col);
+        Update(rowIndex, colIndex, currentPlayer);
+            if (currentPlayer == 1)
+            {
+                currentPlayer = 2;
+            }
+            else
+            {
+                currentPlayer = 1;
+            }
+            
+    }
+
+    public static void CheckGameState()
+    {
         
     }
 }
