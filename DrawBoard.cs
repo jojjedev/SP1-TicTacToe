@@ -43,15 +43,13 @@ public class TicTacToe
         TicTacToe.Draw();
     }
 
-    public static void Round()
+    public static (int rowIndex, int colIndex, int previousPlayer) Round()
     {
-        Console.Write($"It's {currentPlayer}'s turn: ");
+        Console.Write($"It's Player {currentPlayer}'s turn: ");
         string row;
         int col;
         int rowIndex;
         int colIndex;
-        var player1Squares = new List<string>();
-        var player2Squares = new List<string>();
         
         while (true)
         {
@@ -72,27 +70,13 @@ public class TicTacToe
 
                         if (board[rowIndex, colIndex] == 0)
                         {
-                            var coordinate = $"{rowIndex}{colIndex}";
-                            if (currentPlayer == 1)
-                            {
-                                player1Squares.Add(coordinate);
-                            
-                            }
-                            else
-                            {
-                                player2Squares.Add(coordinate);
-                            }
                             break;
                         }
                         
                     } 
                 }
             }
-            Console.WriteLine("Invalid input, try another.");
-            Console.WriteLine($"Used squares\nPlayer 1: ");
-            player1Squares.ForEach(i => Console.Write(i + ", "));
-            Console.WriteLine($"Player 2: ");
-            player2Squares.ForEach(i => Console.Write(i + ", "));
+            Console.WriteLine("Invalid input, try another coordinate A1-C3.");
             
         }
 //        string row = char.ToString(char.ToUpper(response[0]));
@@ -100,12 +84,120 @@ public class TicTacToe
         rowIndex = rows.IndexOf(row);
         colIndex = columns.IndexOf(col);
         Update(rowIndex, colIndex, currentPlayer);
+        var previousPlayer = currentPlayer;
         currentPlayer = currentPlayer % 2 + 1;
-
+        return (rowIndex, colIndex, previousPlayer);
+        
     }
 
-    public static void CheckGameState()
+    public static (int player1Win, int player2Win) CheckGameState(List<string> player1Used, List<string> player2Used)
     {
+        int totalP1A = 0;
+        int totalP1B = 0;
+        int totalP1C = 0;
+        int totalP11 = 0;
+        int totalP12 = 0;
+        int totalP13 = 0;
         
+        int[] totals1 =
+        {
+            totalP1A, totalP1B, totalP1C, totalP11, totalP12, totalP13
+        };
+        
+        int totalP2A = 0;
+        int totalP2B = 0;
+        int totalP2C = 0;
+        int totalP21 = 0;
+        int totalP22 = 0;
+        int totalP23 = 0;
+        
+        int[] totals2 =
+        {
+            totalP2A, totalP2B, totalP2C, totalP21, totalP22, totalP23
+        };
+        
+        // if any of these values turns to 1, that player wins
+        int player1Win = 0;
+        int Player2Win = 0;
+        
+        foreach (var input in player1Used)
+        {
+            if (input[0] == 0)
+            {
+                totalP1A++;
+            }
+            if (input[0] == 1)
+            {
+                totalP1B++;
+            }
+            if (input[0] == 2)
+            {
+                totalP1C++;
+            }
+        }
+
+        foreach (var input in player1Used)
+        {
+            if (input[1] == 0)
+            {
+                totalP11++;
+            }
+            if (input[1] == 1)
+            {
+                totalP12++;
+            }
+            if (input[1] == 2)
+            {
+                totalP13++;
+            }
+        }
+        foreach (var input in player2Used)
+        {
+            if (input[0] == 0)
+            {
+                totalP2A++;
+            }
+            if (input[0] == 1)
+            {
+                totalP2B++;
+            }
+            if (input[0] == 2)
+            {
+                totalP2C++;
+            }
+        }
+        foreach (var input in player2Used)
+        {
+            if (input[1] == 0)
+            {
+                totalP21++;
+            }
+            if (input[1] == 1)
+            {
+                totalP22++;
+            }
+            if (input[1] == 2)
+            {
+                totalP23++;
+            }
+        }
+
+        foreach (var total in totals1)
+        {
+            if (total == 3)
+            {
+                player1Win = 1;
+            }
+        }
+
+        foreach (var total in totals2)
+        {
+            if (total == 3)
+            {
+                Player2Win = 1;
+            }
+        }
+
+        return (player1Win, Player2Win);
     }
 }

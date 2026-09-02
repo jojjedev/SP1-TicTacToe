@@ -7,11 +7,13 @@ public class Program
         Console.Clear();
         Console.WriteLine("Let's play TicTacToe!\n\nPress Enter to start the game");
         Console.ReadLine();
+        TicTacToe.Draw();
         int round = 0;
+        var player1Used = new List<string>();
+        var player2Used = new List<string>();
         while (round < 9)
         {
             
-            TicTacToe.Draw();
             /*int[,] board = new int[3, 3];
             int[] columns = { 1, 2, 3 };
             string[] rows = { "A", "B", "C" };
@@ -39,13 +41,29 @@ public class Program
                 Console.Write("  -------------\n");
             }
             */
-            TicTacToe.Round();
+            (int player1Status, int player2Status) = TicTacToe.CheckGameState(player1Used, player2Used);
+            if (player1Status == 1)
+            {
+                
+            }
+            var (usedRow, usedCol, previousPlayer) = TicTacToe.Round();
+            
+            if (previousPlayer == 1)
+            {
+                player1Used.Add($"{usedRow}{usedCol}");
+            }
+
+            if (previousPlayer == 2)
+            {
+                player2Used.Add($"{usedRow}{usedCol}");
+            }
+            
             round++;
             
         
-        Console.Write($"Game Over! Total rounds: {round}");
         }
-        
+
+        Console.WriteLine($"Game Over! Total rounds: {round}");
 
     }
 }
