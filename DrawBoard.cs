@@ -23,7 +23,7 @@ public class TicTacToe
             {
                 if (board[i, j] == 0)
                 {
-                    Console.Write(" X |");
+                    Console.Write("   |");
                 }
                 else
                 {
