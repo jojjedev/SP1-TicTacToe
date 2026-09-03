@@ -43,7 +43,10 @@ public class Program
             */
             (int player1Status, int player2Status) = TicTacToe.CheckGameState(player1Used, player2Used);
             var (usedRow, usedCol, previousPlayer) = TicTacToe.Round();
-            
+            if (player1Status == 1)
+            {
+                
+            }
             if (previousPlayer == 1)
             {
                 player1Used.Add($"{usedRow}{usedCol}");
@@ -57,5 +60,10 @@ public class Program
 
         Console.WriteLine($"Game Over! Total rounds: {round}");
 
+    }
+
+    static void EndGame()
+    {
+        
     }
 }

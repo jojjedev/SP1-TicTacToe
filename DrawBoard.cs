@@ -92,112 +92,47 @@ public class TicTacToe
 
     public static (int player1Win, int player2Win) CheckGameState(List<string> player1Used, List<string> player2Used)
     {
-        int totalP1A = 0;
-        int totalP1B = 0;
-        int totalP1C = 0;
-        int totalP11 = 0;
-        int totalP12 = 0;
-        int totalP13 = 0;
-        
-        int[] totals1 =
-        {
-            totalP1A, totalP1B, totalP1C, totalP11, totalP12, totalP13
-        };
-        
-        int totalP2A = 0;
-        int totalP2B = 0;
-        int totalP2C = 0;
-        int totalP21 = 0;
-        int totalP22 = 0;
-        int totalP23 = 0;
-        
-        int[] totals2 =
-        {
-            totalP2A, totalP2B, totalP2C, totalP21, totalP22, totalP23
-        };
-        
-        // if any of these values turns to 1, that player wins
         int player1Win = 0;
-        int Player2Win = 0;
-        
-        foreach (var input in player1Used)
+        int player2Win = 0;
+        string[][] winning =
+        [
+            [ "00", "01", "02" ],
+            [ "10", "11", "12" ],
+            [ "20", "21", "22" ],
+            [ "00", "10", "20" ],
+            [ "01", "11", "21" ],
+            [ "02", "12", "22" ],
+            [ "00", "11", "22" ],
+            [ "02", "11", "20" ]
+        ];
+        foreach (string[] combination in  winning)
         {
-            if (input[0] == 0)
+            int count1 = 0;
+            int count2 = 0;
+            foreach (var s in combination)
             {
-                totalP1A++;
-            }
-            if (input[0] == 1)
-            {
-                totalP1B++;
-            }
-            if (input[0] == 2)
-            {
-                totalP1C++;
-            }
-        }
+                if (player1Used.Contains(s))
+                {
+                    count1++;
+                }
 
-        foreach (var input in player1Used)
-        {
-            if (input[1] == 0)
-            {
-                totalP11++;
+                if (player2Used.Contains(s))
+                {
+                    count2++;
+                }
             }
-            if (input[1] == 1)
-            {
-                totalP12++;
-            }
-            if (input[1] == 2)
-            {
-                totalP13++;
-            }
-        }
-        foreach (var input in player2Used)
-        {
-            if (input[0] == 0)
-            {
-                totalP2A++;
-            }
-            if (input[0] == 1)
-            {
-                totalP2B++;
-            }
-            if (input[0] == 2)
-            {
-                totalP2C++;
-            }
-        }
-        foreach (var input in player2Used)
-        {
-            if (input[1] == 0)
-            {
-                totalP21++;
-            }
-            if (input[1] == 1)
-            {
-                totalP22++;
-            }
-            if (input[1] == 2)
-            {
-                totalP23++;
-            }
-        }
-
-        foreach (var total in totals1)
-        {
-            if (total == 3)
+            if (count1 == 3)
             {
                 player1Win = 1;
             }
-        }
 
-        foreach (var total in totals2)
-        {
-            if (total == 3)
+            if (count2 == 3)
             {
-                Player2Win = 1;
+                player2Win = 1;
             }
+            
         }
 
-        return (player1Win, Player2Win);
+        return (player1Win, player2Win);
     }
 }
