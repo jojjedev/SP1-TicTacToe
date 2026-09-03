@@ -12,3 +12,4 @@ C:\Users\johan\spelprog\spelprog1\tictactoe\obj\Debug\net10.0\refint\tictactoe.d
 C:\Users\johan\spelprog\spelprog1\tictactoe\obj\Debug\net10.0\tictactoe.pdb
 C:\Users\johan\spelprog\spelprog1\tictactoe\obj\Debug\net10.0\tictactoe.genruntimeconfig.cache
 C:\Users\johan\spelprog\spelprog1\tictactoe\obj\Debug\net10.0\ref\tictactoe.dll
+C:\Users\johan\spelprog\spelprog1\tictactoe\obj\Debug\net10.0\tictactoe.sourcelink.json
