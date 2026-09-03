@@ -90,10 +90,11 @@ public class TicTacToe
         
     }
 
-    public static (int player1Win, int player2Win) CheckGameState(List<string> player1Used, List<string> player2Used)
+    public static bool CheckGameState(List<string> player1Used, List<string> player2Used)
     {
         int player1Win = 0;
         int player2Win = 0;
+        bool gameEnd = false;
         string[][] winning =
         [
             [ "00", "01", "02" ],
@@ -129,6 +130,18 @@ public class TicTacToe
                 player2Win = 1;
             }
         }
-        return (player1Win, player2Win);
+        if (player1Win == 1)
+        {
+            Console.WriteLine("Game over! Player 1 Wins!");
+            gameEnd = true;
+        }
+
+        if (player2Win == 1)
+        {
+            Console.WriteLine("Game over! Player 2 Wins!");
+            gameEnd = true;
+        }
+
+        return gameEnd;
     }
 }
