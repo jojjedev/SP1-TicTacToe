@@ -115,7 +115,6 @@ public class TicTacToe
                 {
                     count1++;
                 }
-
                 if (player2Used.Contains(s))
                 {
                     count2++;
@@ -125,14 +124,11 @@ public class TicTacToe
             {
                 player1Win = 1;
             }
-
             if (count2 == 3)
             {
                 player2Win = 1;
             }
-            
         }
-
         return (player1Win, player2Win);
     }
 }
