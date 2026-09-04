@@ -4,10 +4,15 @@ namespace tictactoe;
 
 public class TicTacToe
 {
-    private static int[,] board = new int[3, 3];
+    // Create the constants of the game that are used in the entire class.
+    public static int[,] board = new int[3, 3];
     private static int[] columns = { 1, 2, 3 };
     private static string[] rows = { "A", "B", "C" };
-    private static int currentPlayer = 1; 
+    
+    // Create the current player variable to keep track on whose turn it is.
+    public static int currentPlayer = 1; 
+    
+    // The Draw function draws the current board into the terminal. It changes each turn based on which value in board is changed.
     public static void Draw()
     {
         Console.Clear();
@@ -21,6 +26,8 @@ public class TicTacToe
 
             for (int j = 0; j < 3; j++)
             {
+                /* If a coordinate in the board has not yet been taken, draw it as empty,
+                 otherwise draw the number of the player that chose it. */
                 if (board[i, j] == 0)
                 {
                     Console.Write("   |");
@@ -36,12 +43,9 @@ public class TicTacToe
             Console.Write("  -------------\n");
         }
     }
-
-    public static void Update(int row, int col, int currentPlayer)
-    {
-        board[row, col] = currentPlayer;
-        TicTacToe.Draw();
-    }
+    
+    
+    
 
     public static (int rowIndex, int colIndex, int previousPlayer) Round()
     {
@@ -53,7 +57,7 @@ public class TicTacToe
         
         while (true)
         {
-            var response = Console.ReadLine().Trim();
+            string response = Console.ReadLine().Trim();
             if (response.Length == 2)
             {
                 if (char.IsLetter(response[0]) && char.IsDigit(response[1]))
@@ -89,7 +93,17 @@ public class TicTacToe
         return (rowIndex, colIndex, previousPlayer);
         
     }
-
+    
+    /* The Update() function takes the variables generated in Round() by the input of the player and updates the board.
+     The updated value of board is then used when Draw() is called again. */
+    private static void Update(int row, int col, int currentPlayer)
+    {
+        board[row, col] = currentPlayer;
+        TicTacToe.Draw();
+    }
+    
+    /* CheckGameState() is called in Main() at the end of each round to see if the latest
+     */
     public static bool CheckGameState(List<string> player1Used, List<string> player2Used)
     {
         int player1Win = 0;
