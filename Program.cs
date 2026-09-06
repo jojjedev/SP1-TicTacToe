@@ -1,15 +1,12 @@
-using System.Runtime.InteropServices;
 
 namespace tictactoe;
 
 public class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        Console.Clear();
-        Console.WriteLine("Let's play TicTacToe!\n\nPress Enter to start the game");
-        Console.ReadLine();
-       
+        TicTacToe.NewGame();
+        
         bool gameContinue = true;
         while (gameContinue)
         {
@@ -17,16 +14,16 @@ public class Program
             int round = 0;
             var player1Used = new List<string>();
             var player2Used = new List<string>();
+            // Game loop. A board is filled after 9 rounds so the most amount of rounds that can be played is 9.
             while (round < 9)
             {
-                //Start next round. Round() returns the input into the used row and column variables according to which player just went.
+                /*Start next round. Round() returns the input into the used row and column variables according
+                to which player just went.*/
                 (int usedRow, int usedCol, int previousPlayer) = TicTacToe.Round();
-                if (previousPlayer == 1)
-                {
+                if (previousPlayer == 1) {
                     player1Used.Add($"{usedRow}{usedCol}");
                 }
-                if (previousPlayer == 2)
-                {
+                if (previousPlayer == 2) {
                     player2Used.Add($"{usedRow}{usedCol}");
                 }
 
@@ -47,11 +44,13 @@ public class Program
                 }
             }
             TicTacToe.board = new int[3, 3];
-            Console.WriteLine("Want a rematch? Press Enter to play another game or type 1 to exit the game.");
-            string rematch = Console.ReadLine().Trim();
-            if (rematch == "1")
+            Console.WriteLine("Type 'quit' to exit the game, or press Enter to start a new game.");
+            string rematch = Console.ReadLine()!.Trim().ToLower();
+            if (rematch == "quit")
             {
+                Console.WriteLine("\nThank you for playing!");
                 gameContinue = false;
+                
             }
             else
             {

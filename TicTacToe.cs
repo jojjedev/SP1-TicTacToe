@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 
 namespace tictactoe;
 
@@ -10,7 +9,9 @@ public class TicTacToe
     private static string[] rows = { "A", "B", "C" };
     
     // Create the current player variable to keep track on whose turn it is.
-    public static int currentPlayer = 1; 
+    static string player1Name;
+    static string player2Name;
+    static int currentPlayer = 1;
     
     // The Draw function draws the current board into the terminal. It changes each turn based on which value in board is changed.
     public static void Draw()
@@ -26,15 +27,20 @@ public class TicTacToe
 
             for (int j = 0; j < 3; j++)
             {
-                /* If a coordinate in the board has not yet been taken, draw it as empty,
-                 otherwise draw the number of the player that chose it. */
+                /* If a coordinate in the board has not yet been taken, draw it as empty.
+                 If the value of the input coordinate is 1, write out an X, else write out an O. Basically,
+                 player 1 writes out X, player 2 writes out O.*/
                 if (board[i, j] == 0)
                 {
                     Console.Write("   |");
                 }
+                else if (board[i, j] == 1)
+                {
+                    Console.Write($" X |");
+                }
                 else
                 {
-                    Console.Write($" {board[i, j]} |");
+                    Console.Write($" O |");
                 }
 
             }
@@ -46,12 +52,14 @@ public class TicTacToe
     
     public static (int rowIndex, int colIndex, int previousPlayer) Round()
     {
-        Console.Write($"It's Player {currentPlayer}'s turn: ");
+        // If currentPlayer == 1, print player1Name, else print player2Name
+        Console.Write(currentPlayer == 1 ? $"It's {player1Name}'s turn: " : $"It's {player2Name}'s turn: ");
         string row;
         int col;
         int rowIndex;
         int colIndex;
         
+        // While loop that continues until a valid input is given.
         while (true)
         {
             string response = Console.ReadLine().Trim();
@@ -77,10 +85,11 @@ public class TicTacToe
                     } 
                 }
             }
+            // If an invalid input is given, redraw the board with an error message below that prompts another input.
+            Draw(); 
             Console.WriteLine("Invalid input, try another coordinate A1-C3.");
             
         }
-//        string row = char.ToString(char.ToUpper(response[0]));
 
         rowIndex = rows.IndexOf(row);
         colIndex = columns.IndexOf(col);
@@ -96,11 +105,14 @@ public class TicTacToe
     private static void Update(int row, int col, int currentPlayer)
     {
         board[row, col] = currentPlayer;
-        TicTacToe.Draw();
+        Draw();
     }
     
-    /* CheckGameState() is called in Main() at the end of each round to see if the latest
-     */
+    /* CheckGameState() is called in Main() at the end of each round to see if the latest input given by a player
+     has ended the game by making a line of three in a row. It does this by comparing each valid combination of
+     coordinates that makes three in a row with the inputs made by each player. Not an effective method since it
+     checks even though the length of player1Used and player2Used is less than 3, meaning it checks before it's
+     possible for there to even be a winner.*/
     public static bool CheckGameState(List<string> player1Used, List<string> player2Used)
     {
         int player1Win = 0;
@@ -143,33 +155,72 @@ public class TicTacToe
         }
         if (player1Win == 1)
         {
-            Console.WriteLine("Game over! Player 1 Wins!");
+            Console.WriteLine($"Game over! {player1Name} Wins!");
             gameEnd = true;
         }
 
         if (player2Win == 1)
         {
-            Console.WriteLine("Game over! Player 2 Wins!");
+            Console.WriteLine($"Game over! {player2Name} Wins!");
             gameEnd = true;
         }
 
         return gameEnd;
     }
 
+    /* NewGame() runs at the start of the game, and makes the players set their names. After the names are set, 
+     the players have to confirm their names by typing yes. If anything else is given, they get prompted to
+     write their names in again. If confirmed by typing "yes", the while loop breaks and the function ends.*/
+    public static void NewGame()
+    {
+        Console.Clear();
+        Console.WriteLine("Let's play TicTacToe!\n\nPress Enter to start the game");
+        Console.ReadLine();
+        
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("Please write your names.");
+            player1Name = Console.ReadLine()!;
+            player2Name = Console.ReadLine()!;
+            Console.Clear();
+            Console.WriteLine($"Please confirm that your names are correct.\nPlayer 1: {player1Name}\nPlayer 2: {player2Name}");
+            Console.WriteLine("Type 'yes' to confirm, or press Enter to type new names.");
+            string response = Console.ReadLine()!.Trim().ToLower();
+            if (response == "yes")
+            {
+                break;
+            }
+            
+        }
+    }
+    
+    /* When a rematch is prompted in the game loop, Rematch() runs. It checks which player lost, by checking who
+     was going to take their turn next. So if player 1 wins, currentPlayer would be set to 2, since it was on
+     player 1's turn the last input was made. The loser decides which player is going to start the next game
+     by typing 1 or 2.*/
     public static void Rematch()
     {
         string response;
         do
         {
-            Console.WriteLine($"Player {TicTacToe.currentPlayer}, which player should start the game? 1 or 2? ");
+            if (currentPlayer == 1)
+            {
+                Console.WriteLine($"{player1Name}, since you lost, you decide who begins the next game. \nType 1 for {player1Name}\nor\nType 2 for {player2Name} ");
+            }
+            else
+            {
+                Console.WriteLine($"{player2Name}, since you lost, you decide who begins the next game. \nType 1 for {player1Name}\nor\nType 2 for {player2Name} ");
+                
+            }
             response = Console.ReadLine()!.Trim();
             if (response == "1")
             {
-                TicTacToe.currentPlayer = 1;
+                currentPlayer = 1;
             }
             else if (response == "2")
             {
-                TicTacToe.currentPlayer = 2;
+                currentPlayer = 2;
             }
         } while (response != "1" && response != "2");
             
