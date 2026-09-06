@@ -44,9 +44,6 @@ public class TicTacToe
         }
     }
     
-    
-    
-
     public static (int rowIndex, int colIndex, int previousPlayer) Round()
     {
         Console.Write($"It's Player {currentPlayer}'s turn: ");
@@ -88,7 +85,7 @@ public class TicTacToe
         rowIndex = rows.IndexOf(row);
         colIndex = columns.IndexOf(col);
         Update(rowIndex, colIndex, currentPlayer);
-        var previousPlayer = currentPlayer;
+        int previousPlayer = currentPlayer;
         currentPlayer = currentPlayer % 2 + 1;
         return (rowIndex, colIndex, previousPlayer);
         
@@ -157,5 +154,25 @@ public class TicTacToe
         }
 
         return gameEnd;
+    }
+
+    public static void Rematch()
+    {
+        string response;
+        do
+        {
+            Console.WriteLine($"Player {TicTacToe.currentPlayer}, which player should start the game? 1 or 2? ");
+            response = Console.ReadLine()!.Trim();
+            if (response == "1")
+            {
+                TicTacToe.currentPlayer = 1;
+            }
+            else if (response == "2")
+            {
+                TicTacToe.currentPlayer = 2;
+            }
+        } while (response != "1" && response != "2");
+            
+        
     }
 }
